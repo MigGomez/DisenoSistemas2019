@@ -15,7 +15,9 @@ public class Inicio extends javax.swing.JFrame {
      * Creates new form Inicio
      */
     public Inicio() {
-        initComponents();
+       initComponents();
+     
+
     }
 
     /**
@@ -28,7 +30,7 @@ public class Inicio extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButtonNuevaOrden = new javax.swing.JButton();
+        btnNueva = new javax.swing.JButton();
         jButtonAgregarP = new javax.swing.JButton();
         jButtonMod = new javax.swing.JButton();
         jButtonImprimir = new javax.swing.JButton();
@@ -45,12 +47,17 @@ public class Inicio extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 102, 0));
         jLabel1.setText("PASTELERIA BAKERY");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 520, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 520, -1));
 
-        jButtonNuevaOrden.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButtonNuevaOrden.setForeground(new java.awt.Color(204, 102, 0));
-        jButtonNuevaOrden.setText("NUEVA ORDEN");
-        getContentPane().add(jButtonNuevaOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 85, -1, 40));
+        btnNueva.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnNueva.setForeground(new java.awt.Color(204, 102, 0));
+        btnNueva.setText("NUEVA ORDEN");
+        btnNueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnNueva, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 85, -1, 40));
 
         jButtonAgregarP.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButtonAgregarP.setForeground(new java.awt.Color(204, 102, 0));
@@ -126,6 +133,10 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonImprimirActionPerformed
 
+    private void btnNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNuevaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -162,11 +173,11 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNueva;
     private javax.swing.JButton jButtonAgregarP;
     private javax.swing.JButton jButtonCobrar;
     private javax.swing.JButton jButtonImprimir;
     private javax.swing.JButton jButtonMod;
-    private javax.swing.JButton jButtonNuevaOrden;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelFondo2;
