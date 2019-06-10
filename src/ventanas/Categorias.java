@@ -1,7 +1,11 @@
 
 package ventanas;
 
+import codigo.conexion;
+import codigo.variables_categorias;
 import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 
 public class Categorias extends javax.swing.JFrame {
@@ -9,12 +13,14 @@ public class Categorias extends javax.swing.JFrame {
     public Categorias() {
         initComponents();
         this.deshabilitar();
+        this.ls_categorias.setModel(conexion.llenar_lista());
         
     }
 
       public void deshabilitar(){
           this.jp_categoria.setBackground(new Color(240,240,240));
           this.txt_nombre.setEnabled(false);
+          this.txt_nombre.setText("");
           this.btn_guardar.setEnabled(false);
           this.btn_cancelar.setEnabled(false);
       }
@@ -38,6 +44,11 @@ public class Categorias extends javax.swing.JFrame {
           this.btn_eliminar.setEnabled(true);
           this.btn_modificar.setEnabled(true);
       }
+    
+    public variables_categorias dar_valores(){
+        variables_categorias r = new variables_categorias(this.txt_nombre.getText());
+        return r;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -182,8 +193,16 @@ public class Categorias extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        variables_categorias x = null;
+        x = dar_valores();
+        
+        conexion.guardar_categoria(x);
+        
         this.deshabilitar();
         this.habilitar_botones();
+        
+        
+        
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     /**
@@ -235,4 +254,6 @@ public class Categorias extends javax.swing.JFrame {
     private javax.swing.JList<String> ls_categorias;
     private javax.swing.JTextField txt_nombre;
     // End of variables declaration//GEN-END:variables
+
+    
 }

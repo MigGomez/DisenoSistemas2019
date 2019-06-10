@@ -5,6 +5,7 @@
  */
 package ventanas;
 
+import codigo.conexion;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -62,7 +63,7 @@ public class PruebaConexion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        conexion cn=new conexion();
+     /*   conexion cn=new conexion();
         Statement st;
         ResultSet rs;
         try {
@@ -73,7 +74,7 @@ public class PruebaConexion extends javax.swing.JFrame {
             }
             cn.con.close();
         } catch (Exception e) {
-        }
+        }*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
