@@ -2,6 +2,7 @@ package codigo;
 
 import java.sql.*;
 import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 
 
 public class conexion {
@@ -29,6 +30,7 @@ public class conexion {
             System.out.println("error");
         } 
     }
+  
     
     
 //Metodos para manejar categorias
@@ -59,5 +61,36 @@ public class conexion {
         conectar();
         String q = "DELETE FROM categoria WHERE nombre=('"+ x +"') ";
         ejecutar(q);
+    }
+    
+//Metodos para manejar productos
+    public static DefaultTableModel llenar_tablaP(){
+        conectar();
+        DefaultTableModel modelo = new DefaultTableModel();
+        String q= "SELECT * FROM productos";
+        try {
+            resultado = sentencia.executeQuery(q);
+            System.out.println("correcto");
+        } catch (Exception e) {
+        }
+        try {
+            modelo.addColumn("id");
+            modelo.addColumn("nombre");
+            modelo.addColumn("categoria");
+            modelo.addColumn("precio");
+            modelo.addColumn("Es preparado?");
+            
+            while(resultado.next()){
+                Object[] fila = new Object[5];
+                for (int j = 0; j < 5; j++) {
+                    fila[j] = resultado.getObject(j+1);
+                }
+                modelo.addRow(fila);
+
+        }
+        }catch (Exception e) {
+        }
+        
+        return modelo;
     }
 }
