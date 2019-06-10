@@ -20,15 +20,21 @@ public class conexion {
         }
     }
     
-    public static void guardar_categoria(variables_categorias x){
+    public static void ejecutar(String q){
         conectar();
-        String q = "INSERT INTO categoria (nombre) VALUES ('"+ x.getNombre() +"') ";
         try {
             sentencia.executeUpdate(q);
             System.out.println("correcto");
         } catch (Exception e) {
             System.out.println("error");
-        }           
+        } 
+    }
+    
+    
+//Metodos para manejar categorias
+    public static void guardar_categoria(variables_categorias x){
+        String q = "INSERT INTO categoria (nombre) VALUES ('"+ x.getNombre() +"') ";
+        ejecutar(q);           
     }
     
     public static DefaultListModel<String> llenar_lista(){
@@ -49,4 +55,9 @@ public class conexion {
         return modelo;
     }
 
+    public static void eliminar_categoria(String x){
+        conectar();
+        String q = "DELETE FROM categoria WHERE nombre=('"+ x +"') ";
+        ejecutar(q);
+    }
 }

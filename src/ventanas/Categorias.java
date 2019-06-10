@@ -4,8 +4,6 @@ package ventanas;
 import codigo.conexion;
 import codigo.variables_categorias;
 import java.awt.Color;
-import java.util.ArrayList;
-import javax.swing.DefaultListModel;
 
 
 public class Categorias extends javax.swing.JFrame {
@@ -13,6 +11,7 @@ public class Categorias extends javax.swing.JFrame {
     public Categorias() {
         initComponents();
         this.deshabilitar();
+        this.habilitar_botones();
         this.ls_categorias.setModel(conexion.llenar_lista());
         
     }
@@ -23,6 +22,8 @@ public class Categorias extends javax.swing.JFrame {
           this.txt_nombre.setText("");
           this.btn_guardar.setEnabled(false);
           this.btn_cancelar.setEnabled(false);
+          this.btn_modificar.setEnabled(false);
+          this.btn_eliminar.setEnabled(false);
       }
       public void habilitar(){
           this.jp_categoria.setBackground(new Color(204,204,204));
@@ -41,8 +42,8 @@ public class Categorias extends javax.swing.JFrame {
     public void habilitar_botones(){
           this.ls_categorias.setEnabled(true);
           this.btn_nuevo.setEnabled(true);
-          this.btn_eliminar.setEnabled(true);
-          this.btn_modificar.setEnabled(true);
+          //this.btn_eliminar.setEnabled(true);
+          //this.btn_modificar.setEnabled(true);
       }
     
     public variables_categorias dar_valores(){
@@ -82,6 +83,16 @@ public class Categorias extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        ls_categorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ls_categoriasMouseExited(evt);
+            }
+        });
+        ls_categorias.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ls_categoriasValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(ls_categorias);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 280, 520));
@@ -114,6 +125,11 @@ public class Categorias extends javax.swing.JFrame {
         btn_eliminar.setText("ELIMINAR");
         btn_eliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_eliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, 120, -1));
 
         jp_categoria.setBackground(new java.awt.Color(204, 204, 204));
@@ -200,10 +216,24 @@ public class Categorias extends javax.swing.JFrame {
         
         this.deshabilitar();
         this.habilitar_botones();
-        
-        
-        
+        this.ls_categorias.setModel(conexion.llenar_lista());   
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void ls_categoriasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ls_categoriasValueChanged
+        // Cuando se selecciona un items en la lista
+        //this.btn_modificar.setEnabled(true);
+        this.btn_eliminar.setEnabled(true);
+    }//GEN-LAST:event_ls_categoriasValueChanged
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        //borrar items seleccionado de la lista
+        conexion.eliminar_categoria(this.ls_categorias.getSelectedValue());
+        this.ls_categorias.setModel(conexion.llenar_lista());
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void ls_categoriasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ls_categoriasMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ls_categoriasMouseExited
 
     /**
      * @param args the command line arguments
