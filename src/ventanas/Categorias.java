@@ -1,50 +1,50 @@
 
 package ventanas;
 
-import codigo.conexion;
 import codigo.variables_categorias;
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
 
 public class Categorias extends javax.swing.JFrame {
 
     public Categorias() {
         initComponents();
-        this.deshabilitar();
-        this.habilitar_botones();
-        this.ls_categorias.setModel(conexion.llenar_lista());
-        
+        this.panel1(true);
+        this.panel2(false);    
     }
 
-      public void deshabilitar(){
-          this.jp_categoria.setBackground(new Color(240,240,240));
-          this.txt_nombre.setEnabled(false);
+      public void panel1(boolean x){
+          this.llenar_tabla();
+        this.tabla_categoria.setEnabled(x);
+        this.btn_nuevo.setEnabled(x);
+        this.btn_eliminar.setEnabled(x);
+      }
+          
+      public void panel2(boolean x){
+          //this.llenar_tabla();
+          //this.jp_categoria.setBackground(new Color(240,240,240));
+          this.txt_nombre.setEnabled(x);
           this.txt_nombre.setText("");
-          this.btn_guardar.setEnabled(false);
-          this.btn_cancelar.setEnabled(false);
-          this.btn_modificar.setEnabled(false);
-          this.btn_eliminar.setEnabled(false);
-      }
-      public void habilitar(){
-          this.jp_categoria.setBackground(new Color(204,204,204));
-          this.txt_nombre.setEnabled(true);
-          this.btn_guardar.setEnabled(true);
-          this.btn_cancelar.setEnabled(true);
+          this.btn_guardar.setEnabled(x);
+          this.btn_cancelar.setEnabled(x);
+          }
 
-      }
       
-      public void deshabilitar_botones(){
-          this.ls_categorias.setEnabled(false);
-          this.btn_nuevo.setEnabled(false);
-          this.btn_eliminar.setEnabled(false);
-          this.btn_modificar.setEnabled(false);
-      }
-    public void habilitar_botones(){
-          this.ls_categorias.setEnabled(true);
-          this.btn_nuevo.setEnabled(true);
-          //this.btn_eliminar.setEnabled(true);
-          //this.btn_modificar.setEnabled(true);
-      }
+      public void llenar_tabla(){
+       DefaultTableModel modelo = new DefaultTableModel();
+       
+       modelo.addColumn("id");
+       modelo.addColumn("nombre");
+
+       modelo=variables_categorias.llenar_tablaC(modelo);
+      
+       this.tabla_categoria.setModel(modelo);
+   }
+      
+
+      
+
     
     public variables_categorias dar_valores(){
         variables_categorias r = new variables_categorias(this.txt_nombre.getText());
@@ -56,84 +56,27 @@ public class Categorias extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ls_categorias = new javax.swing.JList<>();
-        btn_nuevo = new javax.swing.JButton();
-        btn_modificar = new javax.swing.JButton();
-        btn_eliminar = new javax.swing.JButton();
         jp_categoria = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
         btn_guardar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        btn_nuevo = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabla_categoria = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1024, 768));
         setPreferredSize(new java.awt.Dimension(1024, 768));
         setSize(new java.awt.Dimension(1024, 768));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setText("CATEGORIAS:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
 
-        ls_categorias.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        ls_categorias.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ls_categoriasMouseExited(evt);
-            }
-        });
-        ls_categorias.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                ls_categoriasValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(ls_categorias);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 280, 520));
-
-        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/boton-de-suma.png"))); // NOI18N
-        btn_nuevo.setText("AGREGAR");
-        btn_nuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_nuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_nuevoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btn_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 120, -1));
-
-        btn_modificar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/intercambio.png"))); // NOI18N
-        btn_modificar.setText("MODIFICAR");
-        btn_modificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_modificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_modificarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 430, -1, -1));
-
-        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/menos.png"))); // NOI18N
-        btn_eliminar.setText("ELIMINAR");
-        btn_eliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_eliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_eliminarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, 120, -1));
-
-        jp_categoria.setBackground(new java.awt.Color(204, 204, 204));
-        jp_categoria.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jp_categoria.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("AGREGAR / MODIFICAR CATEGORIA");
@@ -155,6 +98,11 @@ public class Categorias extends javax.swing.JFrame {
         btn_cancelar.setText("CANCELAR");
         btn_cancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_cancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jp_categoriaLayout = new javax.swing.GroupLayout(jp_categoria);
         jp_categoria.setLayout(jp_categoriaLayout);
@@ -175,7 +123,7 @@ public class Categorias extends javax.swing.JFrame {
                         .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(64, 64, 64)
                         .addComponent(btn_cancelar)))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         jp_categoriaLayout.setVerticalGroup(
             jp_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,54 +134,133 @@ public class Categorias extends javax.swing.JFrame {
                 .addGroup(jp_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
                 .addGroup(jp_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_cancelar)
                     .addComponent(btn_guardar))
                 .addGap(102, 102, 102))
         );
 
-        getContentPane().add(jp_categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 170, 420, 410));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/boton-de-suma.png"))); // NOI18N
+        btn_nuevo.setText("AGREGAR");
+        btn_nuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_nuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevoActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/menos.png"))); // NOI18N
+        btn_eliminar.setText("ELIMINAR");
+        btn_eliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_eliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+
+        tabla_categoria.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tabla_categoria);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn_nuevo)
+                        .addGap(57, 57, 57)
+                        .addComponent(btn_eliminar))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(jp_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabel1)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jp_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
         // 
-        this.habilitar();
-        this.deshabilitar_botones();
+        this.panel1(false);
+        this.panel2(true);
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
-    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_modificarActionPerformed
-
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        variables_categorias x = null;
-        x = dar_valores();
         
-        conexion.guardar_categoria(x);
-        
-        this.deshabilitar();
-        this.habilitar_botones();
-        this.ls_categorias.setModel(conexion.llenar_lista());   
+        variables_categorias.agregar_categoria(this.txt_nombre.getText());
+
+        this.panel1(true);
+        this.panel2(false);
     }//GEN-LAST:event_btn_guardarActionPerformed
 
-    private void ls_categoriasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ls_categoriasValueChanged
-        // Cuando se selecciona un items en la lista
-        //this.btn_modificar.setEnabled(true);
-        this.btn_eliminar.setEnabled(true);
-    }//GEN-LAST:event_ls_categoriasValueChanged
-
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        //borrar items seleccionado de la lista
-        conexion.eliminar_categoria(this.ls_categorias.getSelectedValue());
-        this.ls_categorias.setModel(conexion.llenar_lista());
+
+        DefaultTableModel tm = (DefaultTableModel) this.tabla_categoria.getModel();
+        String dato=String.valueOf(tm.getValueAt(tabla_categoria.getSelectedRow(),0));
+        
+        variables_categorias.eliminar_categoria(dato);
+        
+        this.panel1(true);
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
-    private void ls_categoriasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ls_categoriasMouseExited
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ls_categoriasMouseExited
+        this.panel1(true);
+        this.panel2(false);
+    }//GEN-LAST:event_btn_cancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,14 +301,14 @@ public class Categorias extends javax.swing.JFrame {
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_guardar;
-    private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_nuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel jp_categoria;
-    private javax.swing.JList<String> ls_categorias;
+    private javax.swing.JTable tabla_categoria;
     private javax.swing.JTextField txt_nombre;
     // End of variables declaration//GEN-END:variables
 

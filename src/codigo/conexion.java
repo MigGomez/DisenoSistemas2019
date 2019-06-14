@@ -1,6 +1,7 @@
 package codigo;
 
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -9,7 +10,8 @@ public class conexion {
     static Connection con=null;
     static Statement sentencia;
     static ResultSet resultado;
-    
+    static ResultSetMetaData rsMetaData;
+//metodos para conectar, ejecutar y obtener valores ****************************   
     public static void conectar(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -30,24 +32,25 @@ public class conexion {
             System.out.println("error");
         } 
     }
-  
     
-    
-//Metodos para manejar categorias
-    public static void guardar_categoria(variables_categorias x){
-        String q = "INSERT INTO categoria (nombre) VALUES ('"+ x.getNombre() +"') ";
-        ejecutar(q);           
-    }
-    
-    public static DefaultListModel<String> llenar_lista(){
+    public static ResultSet obtenerValores(String q){
         conectar();
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        String q = "SELECT nombre FROM categoria";
         try {
             resultado = sentencia.executeQuery(q);
             System.out.println("correcto");
         } catch (Exception e) {
         }
+        return resultado;
+    }
+    
+  
+    
+    
+//Metodos para manejar categorias***********************************************
+    /*public static DefaultListModel<String> llenar_lista(){
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        String q = "SELECT nombre FROM categoria";
+        resultado = obtenerValores(q);
         try {           
             while(resultado.next()){
                 modelo.addElement(resultado.getString("nombre"));
@@ -55,42 +58,64 @@ public class conexion {
         } catch (Exception e) {
         }
         return modelo;
-    }
+    }*/
+    //*************************************************************************
 
-    public static void eliminar_categoria(String x){
-        conectar();
-        String q = "DELETE FROM categoria WHERE nombre=('"+ x +"') ";
-        ejecutar(q);
-    }
+
+ 
     
-//Metodos para manejar productos
-    public static DefaultTableModel llenar_tablaP(){
-        conectar();
-        DefaultTableModel modelo = new DefaultTableModel();
-        String q= "SELECT * FROM productos";
+    
+    
+    //LLENAR LISTA DE LA COLUMNA numero 1***************************************
+    public static ArrayList<String> LLenarLista(String x){
+        resultado = obtenerValores(x);
+        ArrayList<String> lista = new ArrayList<>();
+
         try {
-            resultado = sentencia.executeQuery(q);
-            System.out.println("correcto");
+            while(resultado.next() ){
+            lista.add(resultado.getString(1));
+            }
         } catch (Exception e) {
         }
+        return lista;
+    }
+    
+    
+    //LLENAR TABLA*************************************************************
+    //recibe la sentencia sql y el modelo creado*******************************
+    public static DefaultTableModel llenar_tabla(String x, DefaultTableModel md){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo = md;
+        resultado = obtenerValores(x);
+         
         try {
-            modelo.addColumn("id");
-            modelo.addColumn("nombre");
-            modelo.addColumn("categoria");
-            modelo.addColumn("precio");
-            modelo.addColumn("Es preparado?");
+            rsMetaData = resultado.getMetaData();
+            int nc = rsMetaData.getColumnCount();
             
             while(resultado.next()){
-                Object[] fila = new Object[5];
-                for (int j = 0; j < 5; j++) {
+                Object[] fila = new Object[nc];
+                for (int j = 0; j < nc; j++) {
                     fila[j] = resultado.getObject(j+1);
                 }
                 modelo.addRow(fila);
-
         }
         }catch (Exception e) {
         }
         
         return modelo;
     }
+    
+    //OBTENER ID DE CATEGORIA
+    public static int idCategoria(String x){
+        resultado = obtenerValores(x);
+        int id_ob =0;
+        
+        try {
+            resultado.first();
+            id_ob = resultado.getInt(1);
+        } catch (Exception e) { }
+        return id_ob;
+    }
+    
+    /************************************************************************/
 }

@@ -1,6 +1,11 @@
 package ventanas;
 
+
 import codigo.conexion;
+import codigo.variables_productos;
+import java.util.ArrayList;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 public class Productos extends javax.swing.JFrame {
 
@@ -14,6 +19,8 @@ public class Productos extends javax.swing.JFrame {
 
 
     public void visible_panel2(boolean x){
+        this.llenar_jCbx();
+        this.llenar_tabla();
         this.btn_guardar.setEnabled(x);
         this.btn_cancelar.setEnabled(x);
         this.tf_nombre.setEnabled(x);
@@ -27,16 +34,42 @@ public class Productos extends javax.swing.JFrame {
     }
         
    public void visible_panel1(boolean x){
+       this.llenar_jCbx();
+        this.llenar_tabla();
        this.tabla_productos.setEnabled(x);
        this.btn_nuevo.setEnabled(x);
        this.btn_eliminar.setEnabled(false);
        this.cbx_categoria.setSelectedIndex(0);
    } 
    
+   
+   
    public void llenar_tabla(){
-       this.tabla_productos.setModel(conexion.llenar_tablaP());
+       DefaultTableModel modelo = new DefaultTableModel();
+       
+       modelo.addColumn("id");
+       modelo.addColumn("nombre");
+       modelo.addColumn("categoria");
+       modelo.addColumn("precio");
+       modelo.addColumn("Es preparado?");
+       modelo=variables_productos.llenar_tablaP(modelo);
+      
+       this.tabla_productos.setModel(modelo);
+   }
+   
+   public void llenar_jCbx(){
+       this.cbx_categoria.removeAllItems();
+       ArrayList<String> lista = new ArrayList<>();
+       lista = variables_productos.llenarJcbx();
+       for (int i = 0; i < lista.size(); i++) {
+           this.cbx_categoria.addItem(lista.get(i));
+       }
    }
     
+   
+   
+   
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -96,6 +129,11 @@ public class Productos extends javax.swing.JFrame {
         btn_guardar.setText("GUARDAR");
         btn_guardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_guardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
 
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cancelar.png"))); // NOI18N
         btn_cancelar.setText("CANCELAR");
@@ -210,6 +248,11 @@ public class Productos extends javax.swing.JFrame {
         btn_eliminar.setText("ELIMINAR");
         btn_eliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_eliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -229,12 +272,12 @@ public class Productos extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btn_nuevo)
                         .addGap(37, 37, 37)
                         .addComponent(btn_eliminar)))
-                .addGap(112, 112, 112))
+                .addGap(52, 52, 52))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -272,17 +315,42 @@ public class Productos extends javax.swing.JFrame {
         this.btn_eliminar.setEnabled(true);
     }//GEN-LAST:event_tabla_productosMouseClicked
 
+    
     private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
-        // TODO add your handling code here:
+        //Agregar PRODUCTO
         this.visible_panel1(false);
         this.visible_panel2(true);
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
+    
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         // TODO add your handling code here:
         this.visible_panel2(false);
         this.visible_panel1(true);
     }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        // TODO add your handling code here:
+        String nombre=this.tf_nombre.getText();
+        Double precio= Double.parseDouble(this.tf_precio.getText());
+        String categoria= this.cbx_categoria.getSelectedItem().toString();
+        boolean espreparado = this.chbx_preparacion.getState();
+
+        variables_productos x = new variables_productos(nombre, precio, categoria, espreparado);
+        
+        variables_productos.guardar_producto(x);
+        this.visible_panel1(true);
+        this.visible_panel2(false);
+    }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel tm = (DefaultTableModel) this.tabla_productos.getModel();
+        String dato=String.valueOf(tm.getValueAt(tabla_productos.getSelectedRow(),0));
+        String q = "DELETE FROM productos WHERE id=('"+ dato +"') ";
+        conexion.ejecutar(q);
+        this.visible_panel1(true);
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     /**
      * @param args the command line arguments
