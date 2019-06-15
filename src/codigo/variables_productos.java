@@ -30,9 +30,8 @@ public class variables_productos {
     
     //guardar productos
     public static void guardar_producto(variables_productos x){
-
-        String q= "SELECT id FROM categoria WHERE nombre='"+x.getCategoria() +"'";
-        int idC = conexion.idCategoria(q);
+        String q= "SELECT id FROM categoria WHERE nombre='"+x +"'";
+        int idC = conexion.id(q);
 
         int pre;
         if (x.getEspreparado()== false){

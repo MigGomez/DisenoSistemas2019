@@ -23,6 +23,7 @@ public class conexion {
         }
     }
     
+    
     public static void ejecutar(String q){
         conectar();
         try {
@@ -32,6 +33,7 @@ public class conexion {
             System.out.println("error");
         } 
     }
+    
     
     public static ResultSet obtenerValores(String q){
         conectar();
@@ -44,29 +46,8 @@ public class conexion {
     }
     
   
-    
-    
-//Metodos para manejar categorias***********************************************
-    /*public static DefaultListModel<String> llenar_lista(){
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        String q = "SELECT nombre FROM categoria";
-        resultado = obtenerValores(q);
-        try {           
-            while(resultado.next()){
-                modelo.addElement(resultado.getString("nombre"));
-            }
-        } catch (Exception e) {
-        }
-        return modelo;
-    }*/
-    //*************************************************************************
-
-
- 
-    
-    
-    
     //LLENAR LISTA DE LA COLUMNA numero 1***************************************
+    //para llenar un jcbx
     public static ArrayList<String> LLenarLista(String x){
         resultado = obtenerValores(x);
         ArrayList<String> lista = new ArrayList<>();
@@ -105,17 +86,48 @@ public class conexion {
         return modelo;
     }
     
+    
     //OBTENER ID DE CATEGORIA
-    public static int idCategoria(String x){
+    public static int id(String x){
+        
         resultado = obtenerValores(x);
         int id_ob =0;
         
         try {
             resultado.first();
             id_ob = resultado.getInt(1);
+            System.out.println(id_ob);
         } catch (Exception e) { }
         return id_ob;
     }
+
+    public static double precioProducto(int x){
+        String q= "SELECT precio FROM producto WHERE id='"+x +"'";
+        resultado = obtenerValores(q);
+        double id_ob =0;
+        
+        try {
+            resultado.first();
+            id_ob = resultado.getDouble(1) ;
+        } catch (Exception e) { }
+        return id_ob;
+    }    
+    
     
     /************************************************************************/
+    //Metodos para manejar categorias***********************************************
+    public static DefaultListModel<String> llenar_modlista(String x){
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        resultado = obtenerValores(x);
+        try {           
+            while(resultado.next()){
+                modelo.addElement(resultado.getString(1));
+            }
+        } catch (Exception e) {
+        }
+        return modelo;
+    }
+    //*************************************************************************
+
+
 }

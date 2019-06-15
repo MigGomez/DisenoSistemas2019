@@ -207,7 +207,7 @@ public class Estadisticas extends javax.swing.JPanel {
 
         jLabel16.setForeground(new java.awt.Color(255, 153, 0));
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/viejo-fondo-madera-textured-oscuro-grunge-superficie-vieja-textura-madera-marron_7182-333.jpg"))); // NOI18N
-        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -60, 620, 530));
+        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -50, 620, 530));
     }// </editor-fold>//GEN-END:initComponents
 
 
