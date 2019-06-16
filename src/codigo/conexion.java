@@ -92,12 +92,11 @@ public class conexion {
         
         resultado = obtenerValores(x);
         int id_ob =0;
-        
         try {
             resultado.first();
             id_ob = resultado.getInt(1);
-            System.out.println(id_ob);
         } catch (Exception e) { }
+        
         return id_ob;
     }
 

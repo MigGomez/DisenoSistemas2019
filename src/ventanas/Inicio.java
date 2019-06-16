@@ -1,6 +1,8 @@
 
 package ventanas;
 
+import codigo.dashboard_codigo;
+
 public class Inicio extends javax.swing.JFrame {
 
     public Inicio() {
@@ -140,7 +142,13 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_nuevaordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevaordenActionPerformed
-        // 
+        //
+        NuevaOrden a = new NuevaOrden();
+        int x =dashboard_codigo.obtenerID();
+        //System.out.println(x);
+        a.prueba(Integer.toString(x) );
+        a.setVisible(true);
+        
     }//GEN-LAST:event_btn_nuevaordenActionPerformed
 
     /**
