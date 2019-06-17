@@ -47,6 +47,31 @@ public class cod_NuevaOrden {
         return prod;
     }
     
+    //*************************************************************************
+    //Calcular total, recibe el modelo, lo recorre y hace el calculo
+    //*************************************************************************
+    public static double calcularTotal(DefaultTableModel md){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo = md;
+        
+        double numero;
+        double suma = 0;
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            numero = Double.parseDouble(modelo.getValueAt(i, 3).toString());
+            suma = numero+suma;    
+        }
+        
+        return suma;
+    }
     
+    //*************************************************************************
+    //guardar nueva orden
+    public static void guardarNuevaOrden(orden x){
+        x.fecha = conexion.fecha();
+        String q= "INSERT INTO ordenes  (id, fecha, mesero, mesa, cliente, estado, total) VALUES ('";
+        String q2 = x.getId() +"', '"+ x.getFecha() +"', '"+ x.getMesero() +"', '"+ x.getMesa() +"', '"+ x.getCliente() +"', '"+x.getEstado() +"', '"+x.getTotal() +"') ";
+        //System.out.println(q+q2);
+        conexion.ejecutar(q+q2);
+    }
     
 }

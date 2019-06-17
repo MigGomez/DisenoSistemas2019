@@ -2,12 +2,13 @@
 package ventanas;
 
 import codigo.dashboard_codigo;
+import javax.swing.table.DefaultTableModel;
 
 public class Inicio extends javax.swing.JFrame {
 
     public Inicio() {
        initComponents();
-     
+       this.llenar_tabla();
 
     }
 
@@ -19,7 +20,7 @@ public class Inicio extends javax.swing.JFrame {
         jDialog1 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         btn_imprimir = new javax.swing.JButton();
         btn_nuevaorden = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -34,7 +35,7 @@ public class Inicio extends javax.swing.JFrame {
         jPanel1.setAutoscrolls(true);
         jPanel1.setPreferredSize(new java.awt.Dimension(1024, 768));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -45,7 +46,7 @@ public class Inicio extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
         btn_imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/impresora.png"))); // NOI18N
         btn_imprimir.setText("IMPRIMIR");
@@ -143,7 +144,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btn_nuevaordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevaordenActionPerformed
         //
-        NuevaOrden a = new NuevaOrden();
+        Ordenes a = new Ordenes();
         int x =dashboard_codigo.obtenerID();
         //System.out.println(x);
         a.prueba(Integer.toString(x));
@@ -151,6 +152,24 @@ public class Inicio extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_nuevaordenActionPerformed
 
+    public void llenar_tabla() {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        modelo.addColumn("ORDEN");
+        modelo.addColumn("MESERO");
+        modelo.addColumn("MESA");
+        modelo.addColumn("CLIENTE");
+        modelo.addColumn("TOTAL");
+        
+        modelo = codigo.dashboard_codigo.llenarTabla(modelo);
+        this.tabla.setModel(modelo);
+    }
+    
+    
+    
+    
+    
+    //*************************************************************************
     /**
      * @param args the command line arguments
      */
@@ -196,6 +215,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

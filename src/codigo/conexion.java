@@ -127,6 +127,17 @@ public class conexion {
         return modelo;
     }
     //*************************************************************************
-
+        public static String fecha(){
+        String q= "SELECT curdate()";
+        resultado = obtenerValores(q);
+        
+        
+        try {
+            resultado.first();
+            q = resultado.getString(1);
+            //id_ob = resultado.getDouble(1) ;
+        } catch (Exception e) { }
+        return q;
+    }  
 
 }
