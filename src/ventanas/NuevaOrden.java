@@ -5,54 +5,131 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
-
 public class NuevaOrden extends javax.swing.JFrame {
-
 
     public NuevaOrden() {
         initComponents();
         llenar_jCbx();
         this.llenar_listaC();
-        
+        this.llenarMesa();
+        this.llenarMesero();
+
     }
-    public void prueba(String q){
+
+    public void prueba(String q) {
         this.txt_orden.setText(q);
     }
-    /*************************************************************************/
-    public void llenar_jCbx(){
-       this.cbx_categoria.removeAllItems();
-       ArrayList<String> lista = new ArrayList<>();
-       lista = cod_NuevaOrden.llenarJcbx();
-       for (int i = 0; i < lista.size(); i++) {
-           this.cbx_categoria.addItem(lista.get(i));
-       }
-   }
-    public void llenar_listaC(){
+
+    /**
+     * **********************************************************************
+     */
+    //Metodos para llenar las categorias y productos**************************
+    public void llenar_jCbx() {
+        this.cbx_categoria.removeAllItems();
+        ArrayList<String> lista = new ArrayList<>();
+        lista = cod_NuevaOrden.llenarJcbx();
+        for (int i = 0; i < lista.size(); i++) {
+            this.cbx_categoria.addItem(lista.get(i));
+        }
+    }
+    
         
+    public void llenar_listaC() {
         String categ = this.cbx_categoria.getSelectedItem().toString();
         this.jlist_productos.setModel(cod_NuevaOrden.llenar_jListP(categ));
     }
     
-    public void llenar_tabla(String p){
-       DefaultTableModel modelo = new DefaultTableModel();
-       
-       modelo.addColumn("cnt");
-       modelo.addColumn("Producto");
-       modelo.addColumn("Precio");
-       modelo.addColumn("total");
-
-       //modelo=cod_NuevaOrden.llenarTabla(modelo, p);
-       
-       this.tabla.setModel(modelo);
-      
-       //this.tabla_categoria.setModel(modelo);
+    
+    //**llenar parametros
+    public void llenarMesa(){
+        this.CB_mesa.removeAllItems();
+        ArrayList<String> lista = new ArrayList<>();
+        lista = cod_NuevaOrden.llenarJcbxParametros("mesa");
+        for (int i = 0; i < lista.size(); i++) {
+            this.CB_mesa.addItem(lista.get(i));
+        }
+        //this.CB_mesa.setSelectedIndex(-1);
     }
-    public void agregarFila(Object[] x){
+    
+    public void llenarMesero(){
+        this.CB_mesero.removeAllItems();
+        ArrayList<String> lista = new ArrayList<>();
+        lista = cod_NuevaOrden.llenarJcbxParametros("mesero");
+        for (int i = 0; i < lista.size(); i++) {
+            this.CB_mesero.addItem(lista.get(i));
+        }
+    }
+
+
+
+    //establece el modelo de la tabla
+    public void llenar_tabla(String p) {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        modelo.addColumn("cnt");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Precio");
+        modelo.addColumn("total");
+
+        //modelo=cod_NuevaOrden.llenarTabla(modelo, p);
+        this.tabla.setModel(modelo);
+
+        //this.tabla_categoria.setModel(modelo);
+    }
+
+    //Agrega una fila recibe un objeto lleno de los datos de la fila**********
+    public void agregarFila(Object[] x) {
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
         modelo.addRow(x);
     }
     
+
+    //***********************************************************************
+    //BUSCAR EL PRODCUTO PARA INCREMENTAR LA CANTIDAD
+    //***********************************************************************
+    public int buscarProductoTabla(String q) {
+        //Object[] rowcol;
+        //= new Object[2];
+        int fila = -1;
+        for (int i = 0; i < tabla.getRowCount(); i++) {
+            if (this.tabla.getValueAt(i, 1).toString().equals(q)) {
+                System.out.println("existo");
+                fila = i;
+            }
+        }
+
+        return fila;
+    }
+
+    //*************************************************************************
+    //eliminar fila seleccionada
+    //*************************************************************************
+    public void eliminarFila() {
+        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
+        if (this.tabla.getSelectedRow() != -1) {
+            modelo.removeRow(this.tabla.getSelectedRow());
+        }
+    }
+
+    //************************************************************************
+    //Sumar - Restar cantidad y precio total
+    //************************************************************************
+    public void modificarCantidad(int s) {
+        if (this.tabla.getSelectedRow() != -1) {
+            int fila = this.tabla.getSelectedRow();
+            String pr = this.tabla.getValueAt(fila, 0).toString();
+            int cantidad = Integer.parseInt(pr) + s;
+            double precioU = Double.parseDouble(this.tabla.getValueAt(fila, 2).toString()) * s;
+            double precioT = Double.parseDouble(this.tabla.getValueAt(fila, 3).toString());
+            precioT = precioT + precioU;
+            this.tabla.setValueAt(precioT, fila, 3);
+            //System.out.println(cantidad);
+            this.tabla.setValueAt(cantidad, fila, 0);
+        }
+    }
     
+    //
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -66,22 +143,23 @@ public class NuevaOrden extends javax.swing.JFrame {
         jlist_productos = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_sumarCantidad = new javax.swing.JButton();
+        btn_restarCantidad = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btn_agregarProducto = new javax.swing.JButton();
+        btn_eliminarfila = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txt_orden = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
+        CB_mesa = new javax.swing.JComboBox<>();
+        CB_mesero = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -135,13 +213,23 @@ public class NuevaOrden extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tabla);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton1.setText("+");
-        jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_sumarCantidad.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_sumarCantidad.setText("+");
+        btn_sumarCantidad.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_sumarCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_sumarCantidadActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton2.setText("-");
-        jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_restarCantidad.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_restarCantidad.setText("-");
+        btn_restarCantidad.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_restarCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_restarCantidadActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 153, 0));
@@ -162,12 +250,21 @@ public class NuevaOrden extends javax.swing.JFrame {
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton6.setText("->");
-        jButton6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarProducto.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_agregarProducto.setText("->");
+        btn_agregarProducto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_agregarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btn_agregarProductoActionPerformed(evt);
+            }
+        });
+
+        btn_eliminarfila.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btn_eliminarfila.setText("x");
+        btn_eliminarfila.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_eliminarfila.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarfilaActionPerformed(evt);
             }
         });
 
@@ -187,8 +284,8 @@ public class NuevaOrden extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(btn_agregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -197,14 +294,17 @@ public class NuevaOrden extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(18, 18, 18)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_sumarCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_restarCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(btn_eliminarfila, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +321,7 @@ public class NuevaOrden extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addGap(13, 13, 13)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_agregarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
@@ -229,10 +329,12 @@ public class NuevaOrden extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jButton3)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_sumarCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(10, 10, 10)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(49, 49, 49)
+                                    .addComponent(btn_restarCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btn_eliminarfila, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(5, 5, 5)
                             .addComponent(jButton5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4))
@@ -263,11 +365,9 @@ public class NuevaOrden extends javax.swing.JFrame {
             }
         });
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+        CB_mesa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        CB_mesero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -276,24 +376,20 @@ public class NuevaOrden extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(34, 34, 34)
-                        .addComponent(txt_orden, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(25, 25, 25)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(45, 45, 45)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(22, 22, 22)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txt_orden, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CB_mesero, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CB_mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
@@ -302,10 +398,10 @@ public class NuevaOrden extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(CB_mesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -316,7 +412,7 @@ public class NuevaOrden extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(CB_mesero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
 
@@ -344,7 +440,7 @@ public class NuevaOrden extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -354,19 +450,15 @@ public class NuevaOrden extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_ordenActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
-    
-    
     private void cbx_categoriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_categoriaItemStateChanged
         //si cambia el valor del jcombobox actuliza la lista de productos
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-          //Object item = evt.getItem();
-          this.llenar_listaC();  
-          // do something with object
-       }
+            //Object item = evt.getItem();
+            this.llenar_listaC();
+            // do something with object
+
+        }
     }//GEN-LAST:event_cbx_categoriaItemStateChanged
 
     private void cbx_categoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_categoriaMouseClicked
@@ -379,14 +471,43 @@ public class NuevaOrden extends javax.swing.JFrame {
         System.out.println(x);*/
     }//GEN-LAST:event_jlist_productosValueChanged
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // AGREGA NUEVO PRODUCTO
+    //*************************************************************************
+    //Agrega un producto de la lista a la tabla
+    private void btn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProductoActionPerformed
         String p = this.jlist_productos.getSelectedValue();
-        this.agregarFila(cod_NuevaOrden.llenarFila(p));
-    }//GEN-LAST:event_jButton6ActionPerformed
+        int fila = this.buscarProductoTabla(p);
 
+        if (fila == -1) {
+            this.agregarFila(cod_NuevaOrden.llenarFila(p));
+        } else {
+            String pr = this.tabla.getValueAt(fila, 0).toString();
+            int cantidad = Integer.parseInt(pr) + 1;
+            double precioU = Double.parseDouble(this.tabla.getValueAt(fila, 2).toString());
+            double precioT = Double.parseDouble(this.tabla.getValueAt(fila, 3).toString());
+            precioT = precioT + precioU;
+            this.tabla.setValueAt(precioT, fila, 3);
+            this.tabla.setValueAt(cantidad, fila, 0);
+            //System.out.println(pr);
+            //System.out.println(cantidad);
+        }
 
-    
+    }//GEN-LAST:event_btn_agregarProductoActionPerformed
+
+    private void btn_eliminarfilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarfilaActionPerformed
+        // TODO add your handling code here:
+        this.eliminarFila();
+    }//GEN-LAST:event_btn_eliminarfilaActionPerformed
+
+    private void btn_sumarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sumarCantidadActionPerformed
+        // TODO add your handling code here:
+        this.modificarCantidad(1);
+    }//GEN-LAST:event_btn_sumarCantidadActionPerformed
+
+    private void btn_restarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restarCantidadActionPerformed
+        // TODO add your handling code here:
+        this.modificarCantidad(-1);
+    }//GEN-LAST:event_btn_restarCantidadActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -420,13 +541,16 @@ public class NuevaOrden extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> CB_mesa;
+    private javax.swing.JComboBox<String> CB_mesero;
+    private javax.swing.JButton btn_agregarProducto;
+    private javax.swing.JButton btn_eliminarfila;
+    private javax.swing.JButton btn_restarCantidad;
+    private javax.swing.JButton btn_sumarCantidad;
     private javax.swing.JComboBox<String> cbx_categoria;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -440,8 +564,6 @@ public class NuevaOrden extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JList<String> jlist_productos;
     private javax.swing.JTable tabla;

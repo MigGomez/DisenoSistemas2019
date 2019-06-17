@@ -17,7 +17,7 @@ public class conexion {
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection("jdbc:mysql://localhost:3306/dbpos","sistemaPOS","POS2019sis");
             sentencia = con.createStatement();
-            System.out.println("conexion exitosa");
+            //System.out.println("conexion exitosa");
         } catch (Exception e) {
             System.err.println("Error:" +e);
         }
@@ -28,7 +28,7 @@ public class conexion {
         conectar();
         try {
             sentencia.executeUpdate(q);
-            System.out.println("correcto");
+            //System.out.println("correcto");
         } catch (Exception e) {
             System.out.println("error");
         } 
@@ -39,7 +39,7 @@ public class conexion {
         conectar();
         try {
             resultado = sentencia.executeQuery(q);
-            System.out.println("correcto");
+            //System.out.println("correcto");
         } catch (Exception e) {
         }
         return resultado;

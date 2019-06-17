@@ -14,6 +14,14 @@ public class cod_NuevaOrden {
         return lista;
     }
     
+    //LLenar jcbx de parametros
+    public static ArrayList<String> llenarJcbxParametros(String parametro){
+        ArrayList<String> lista = new ArrayList<>();
+        String q = "SELECT valor FROM parametros WHERE nombre = '"+ parametro +"'";
+        lista = conexion.LLenarLista(q);
+        return lista;
+    }
+    
     
     public static DefaultListModel<String> llenar_jListP(String x){
         DefaultListModel<String> modelo = new DefaultListModel<>();

@@ -146,7 +146,7 @@ public class Inicio extends javax.swing.JFrame {
         NuevaOrden a = new NuevaOrden();
         int x =dashboard_codigo.obtenerID();
         //System.out.println(x);
-        a.prueba(Integer.toString(x) );
+        a.prueba(Integer.toString(x));
         a.setVisible(true);
         
     }//GEN-LAST:event_btn_nuevaordenActionPerformed
