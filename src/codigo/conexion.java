@@ -123,10 +123,22 @@ public class conexion {
         } catch (Exception e) { }
         return precio;
     }
+    public static String nombreCategoria(String x){
+        String q= "SELECT nombre FROM categoria WHERE id='"+x +"'";
+        resultado = obtenerValores(q);
+        String nombre = "";
+        
+        try {
+            resultado.first();
+            nombre = resultado.getString(1) ;
+        } catch (Exception e) { }
+        return nombre;
+    }
     
     
     /************************************************************************/
-    //Metodos para manejar categorias***********************************************
+    //Metodos para LLENAR LISTAS
+    //************************************************************************
     public static DefaultListModel<String> llenar_modlista(String x){
         DefaultListModel<String> modelo = new DefaultListModel<>();
         resultado = obtenerValores(x);
@@ -138,6 +150,7 @@ public class conexion {
         }
         return modelo;
     }
+    
     //*************************************************************************
         public static String fecha(){
         String q= "SELECT curdate()";

@@ -15,7 +15,7 @@ public class dashboard_codigo {
     public static DefaultTableModel llenarTabla(DefaultTableModel md){
         DefaultTableModel modelo = new DefaultTableModel();
         modelo = md;
-        String q= "SELECT id, mesero, mesa, cliente, total FROM ordenes";
+        String q= "SELECT id, mesero, mesa, cliente, total FROM ordenes WHERE estado='A'";
         
         return conexion.llenar_tabla(q, md);
     }

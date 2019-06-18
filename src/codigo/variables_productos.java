@@ -24,13 +24,14 @@ public class variables_productos {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo = md;
         String q= "SELECT * FROM productos";
-        
-        return conexion.llenar_tabla(q, md);
+        md =conexion.llenar_tabla(q, md);
+        md = llenarTabla2(md);
+        return md;
     }
     
     //guardar productos
     public static void guardar_producto(variables_productos x){
-        String q= "SELECT id FROM categoria WHERE nombre='"+x +"'";
+        String q= "SELECT id FROM categoria WHERE nombre='"+x.getCategoria() +"'";
         int idC = conexion.id(q);
 
         int pre;
@@ -42,7 +43,24 @@ public class variables_productos {
         
         String q2= "INSERT INTO productos  (nombre, precio, categoria, espreparado) VALUES ('"+ x.getNombre() +"' , '"+x.getPrecio().toString()+ "', '"+ idC +"', '"+ pre +"') ";
         conexion.ejecutar(q2);
-    }    
+    } 
+    //**************************************************************************
+    //llenar la tabla con los nombres de la categoria
+    //**************************************************************************
+    public static DefaultTableModel llenarTabla2(DefaultTableModel md){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo = md;
+        String x;
+        String c;
+        
+        for (int i = 0; i < md.getRowCount(); i++) {
+            x= md.getValueAt(i, 3).toString();
+            c = conexion.nombreCategoria(x);
+            md.setValueAt(c, i, 3);
+        }
+
+        return md;
+    }
         
         
           

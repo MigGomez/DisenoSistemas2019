@@ -10,6 +10,9 @@ import javax.swing.table.DefaultTableModel;
 
 public class Ordenes extends javax.swing.JFrame {
     java.util.Date fecha = new Date();
+    
+    //
+    
     public Ordenes() {
         initComponents();
         llenar_jCbx();
@@ -22,7 +25,7 @@ public class Ordenes extends javax.swing.JFrame {
     //************************************************************************
     //funciones que recibe de dashboard
     //************************************************************************
-    public void prueba(String q) {
+    public void nuevaOrden_id(String q) {
         this.txt_orden.setText(q);
     }
     public void prueba2(orden x){
@@ -31,6 +34,9 @@ public class Ordenes extends javax.swing.JFrame {
         this.CB_mesero.setSelectedItem(x.getMesero());
         this.txt_cliente.setText(x.getCliente());
         this.txt_total.setText(x.getTotal());
+        
+        this.btn_guardar.setEnabled(false); //desactivado aun falta arreglar...
+        this.titulo.setText("MODIFICAR");
     }
     public void prueba3(String orden){
         this.llenar_tabla(orden);
@@ -197,10 +203,12 @@ public class Ordenes extends javax.swing.JFrame {
         txt_cliente = new javax.swing.JTextField();
         CB_mesa = new javax.swing.JComboBox<>();
         CB_mesero = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
+        titulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1024, 768));
         setMinimumSize(new java.awt.Dimension(1024, 768));
+        setResizable(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -276,6 +284,11 @@ public class Ordenes extends javax.swing.JFrame {
         jButton5.setText("CANCELAR");
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         btn_guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/guardar.png"))); // NOI18N
         btn_guardar.setText("GUARDAR");
@@ -475,8 +488,8 @@ public class Ordenes extends javax.swing.JFrame {
                 .addContainerGap(71, Short.MAX_VALUE))
         );
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel8.setText("NUEVA ORDEN:");
+        titulo.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        titulo.setText("NUEVA ORDEN:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -485,7 +498,7 @@ public class Ordenes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 990, Short.MAX_VALUE))
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -494,7 +507,7 @@ public class Ordenes extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel8)
+                .addComponent(titulo)
                 .addGap(12, 12, 12)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -525,11 +538,10 @@ public class Ordenes extends javax.swing.JFrame {
     }//GEN-LAST:event_cbx_categoriaMouseClicked
 
     private void jlist_productosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlist_productosValueChanged
-        //
-        /*String x = this.jlist_productos.getSelectedValue();
-        System.out.println(x);*/
+
     }//GEN-LAST:event_jlist_productosValueChanged
 
+    
     //*************************************************************************
     //Agrega un producto de la lista a la tabla
     private void btn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProductoActionPerformed
@@ -590,7 +602,19 @@ public class Ordenes extends javax.swing.JFrame {
         cod_Ordenes.detalleOrde(modelo, id);
         
         //System.out.println(fecha);
+        Inicio a = new Inicio();
+        
+        a.setVisible(true);
+        
+        dispose();
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        Inicio a = new Inicio();
+        a.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -645,7 +669,6 @@ public class Ordenes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -653,6 +676,7 @@ public class Ordenes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> jlist_productos;
     private javax.swing.JTable tabla;
+    private javax.swing.JLabel titulo;
     private javax.swing.JTextField txt_cliente;
     private javax.swing.JTextField txt_orden;
     private javax.swing.JTextField txt_total;

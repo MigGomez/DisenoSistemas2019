@@ -109,7 +109,7 @@ public class cod_Ordenes {
     public static DefaultTableModel llenarTabla(DefaultTableModel md, String orden){
         DefaultTableModel modelo = new DefaultTableModel();
         modelo = md;
-        String q= "SELECT cantidad, producto, precio FROM detalleorden";
+        String q= "SELECT cantidad, producto, precio FROM detalleorden WHERE orden='"+orden+"'";
         
         md = conexion.llenar_tabla(q, md);
         md = llenarTabla2(md);
