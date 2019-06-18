@@ -2,6 +2,7 @@
 package ventanas;
 
 import codigo.dashboard_codigo;
+import codigo.orden;
 import javax.swing.table.DefaultTableModel;
 
 public class Inicio extends javax.swing.JFrame {
@@ -23,7 +24,7 @@ public class Inicio extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         btn_imprimir = new javax.swing.JButton();
         btn_nuevaorden = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btn_modificar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -70,10 +71,15 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/nueva orden.png"))); // NOI18N
-        jButton1.setText("MODIFICAR");
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/nueva orden.png"))); // NOI18N
+        btn_modificar.setText("MODIFICAR");
+        btn_modificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_modificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/dinero.png"))); // NOI18N
         jButton2.setText("COBRAR");
@@ -102,7 +108,7 @@ public class Inicio extends javax.swing.JFrame {
                             .addComponent(btn_nuevaorden, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btn_imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btn_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(50, 50, 50))
         );
         jPanel1Layout.setVerticalGroup(
@@ -124,7 +130,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(56, 56, 56))
         );
 
@@ -151,6 +157,30 @@ public class Inicio extends javax.swing.JFrame {
         a.setVisible(true);
         
     }//GEN-LAST:event_btn_nuevaordenActionPerformed
+    //*************************************************************************
+    //modificar orden activa
+    //*************************************************************************
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        // TODO add your handling code here:
+        orden x = new orden();
+        
+        if (this.tabla.getSelectedRow() != -1) {
+            x.setId(this.tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
+            x.setMesero(this.tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+            x.setMesa(this.tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
+            x.setCliente(this.tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
+            x.setTotal(this.tabla.getValueAt(tabla.getSelectedRow(), 4).toString());
+            
+        }
+        Ordenes a = new Ordenes();
+        
+        //System.out.println(x);
+        a.prueba2(x);
+        a.prueba3(x.getId());
+        a.setVisible(true);
+        //this.actualizarTotal();
+    
+    }//GEN-LAST:event_btn_modificarActionPerformed
 
     public void llenar_tabla() {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -207,8 +237,8 @@ public class Inicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_imprimir;
+    private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_nuevaorden;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;

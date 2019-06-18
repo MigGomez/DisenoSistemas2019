@@ -101,7 +101,7 @@ public class conexion {
     }
 
     public static double precioProducto(int x){
-        String q= "SELECT precio FROM producto WHERE id='"+x +"'";
+        String q= "SELECT precio FROM productos WHERE id='"+x +"'";
         resultado = obtenerValores(q);
         double id_ob =0;
         
@@ -110,7 +110,19 @@ public class conexion {
             id_ob = resultado.getDouble(1) ;
         } catch (Exception e) { }
         return id_ob;
-    }    
+    }
+
+    public static String nombreProducto(String x){
+        String q= "SELECT nombre FROM productos WHERE id='"+x +"'";
+        resultado = obtenerValores(q);
+        String precio = "";
+        
+        try {
+            resultado.first();
+            precio = resultado.getString(1) ;
+        } catch (Exception e) { }
+        return precio;
+    }
     
     
     /************************************************************************/

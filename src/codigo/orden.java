@@ -78,5 +78,8 @@ public class orden {
         this.estado = estado;
         this.total = total;
     }
+
+    public orden() {
+    }
         
 }

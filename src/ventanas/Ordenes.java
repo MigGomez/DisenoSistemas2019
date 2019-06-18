@@ -1,6 +1,6 @@
 package ventanas;
 
-import codigo.cod_NuevaOrden;
+import codigo.cod_Ordenes;
 import codigo.orden;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,13 +19,28 @@ public class Ordenes extends javax.swing.JFrame {
 
     }
 
+    //************************************************************************
+    //funciones que recibe de dashboard
+    //************************************************************************
     public void prueba(String q) {
         this.txt_orden.setText(q);
     }
+    public void prueba2(orden x){
+        this.txt_orden.setText(x.getId());
+        this.CB_mesa.setSelectedItem(x.getMesa());
+        this.CB_mesero.setSelectedItem(x.getMesero());
+        this.txt_cliente.setText(x.getCliente());
+        this.txt_total.setText(x.getTotal());
+    }
+    public void prueba3(String orden){
+        this.llenar_tabla(orden);
+    }
+    
+    
     
     public void actualizarTotal(){
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
-        double x = cod_NuevaOrden.calcularTotal(modelo);
+        double x = cod_Ordenes.calcularTotal(modelo);
         this.txt_total.setText(Double.toString(x));
     }
 
@@ -36,7 +51,7 @@ public class Ordenes extends javax.swing.JFrame {
     public void llenar_jCbx() {
         this.cbx_categoria.removeAllItems();
         ArrayList<String> lista = new ArrayList<>();
-        lista = cod_NuevaOrden.llenarJcbx();
+        lista = cod_Ordenes.llenarJcbx();
         for (int i = 0; i < lista.size(); i++) {
             this.cbx_categoria.addItem(lista.get(i));
         }
@@ -45,7 +60,7 @@ public class Ordenes extends javax.swing.JFrame {
         
     public void llenar_listaC() {
         String categ = this.cbx_categoria.getSelectedItem().toString();
-        this.jlist_productos.setModel(cod_NuevaOrden.llenar_jListP(categ));
+        this.jlist_productos.setModel(cod_Ordenes.llenar_jListP(categ));
     }
     
     
@@ -53,7 +68,7 @@ public class Ordenes extends javax.swing.JFrame {
     public void llenarMesa(){
         this.CB_mesa.removeAllItems();
         ArrayList<String> lista = new ArrayList<>();
-        lista = cod_NuevaOrden.llenarJcbxParametros("mesa");
+        lista = cod_Ordenes.llenarJcbxParametros("mesa");
         for (int i = 0; i < lista.size(); i++) {
             this.CB_mesa.addItem(lista.get(i));
         }
@@ -63,7 +78,7 @@ public class Ordenes extends javax.swing.JFrame {
     public void llenarMesero(){
         this.CB_mesero.removeAllItems();
         ArrayList<String> lista = new ArrayList<>();
-        lista = cod_NuevaOrden.llenarJcbxParametros("mesero");
+        lista = cod_Ordenes.llenarJcbxParametros("mesero");
         for (int i = 0; i < lista.size(); i++) {
             this.CB_mesero.addItem(lista.get(i));
         }
@@ -71,7 +86,9 @@ public class Ordenes extends javax.swing.JFrame {
 
 
 
+    //************************************************************************
     //establece el modelo de la tabla
+    //*************************************************************************
     public void llenar_tabla(String p) {
         DefaultTableModel modelo = new DefaultTableModel();
 
@@ -80,7 +97,7 @@ public class Ordenes extends javax.swing.JFrame {
         modelo.addColumn("Precio");
         modelo.addColumn("total");
 
-        //modelo=cod_NuevaOrden.llenarTabla(modelo, p);
+        modelo=cod_Ordenes.llenarTabla(modelo, p);
         this.tabla.setModel(modelo);
 
         //this.tabla_categoria.setModel(modelo);
@@ -102,7 +119,7 @@ public class Ordenes extends javax.swing.JFrame {
         int fila = -1;
         for (int i = 0; i < tabla.getRowCount(); i++) {
             if (this.tabla.getValueAt(i, 1).toString().equals(q)) {
-                System.out.println("existo");
+                //System.out.println("existo");
                 fila = i;
             }
         }
@@ -141,6 +158,12 @@ public class Ordenes extends javax.swing.JFrame {
     
     //
 
+    
+    
+    
+    //*************************************************************************
+    //
+    //*************************************************************************
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -393,6 +416,8 @@ public class Ordenes extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("CLIENTE:");
 
+        txt_orden.setEditable(false);
+        txt_orden.setBackground(new java.awt.Color(204, 255, 255));
         txt_orden.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_ordenActionPerformed(evt);
@@ -512,7 +537,7 @@ public class Ordenes extends javax.swing.JFrame {
         int fila = this.buscarProductoTabla(p);
 
         if (fila == -1) {
-            this.agregarFila(cod_NuevaOrden.llenarFila(p));
+            this.agregarFila(cod_Ordenes.llenarFila(p));
         } else {
             String pr = this.tabla.getValueAt(fila, 0).toString();
             int cantidad = Integer.parseInt(pr) + 1;
@@ -557,7 +582,13 @@ public class Ordenes extends javax.swing.JFrame {
         
         orden x = new orden(id, f, m,mesa, cl, est, t);
         
-        cod_NuevaOrden.guardarNuevaOrden(x);
+        cod_Ordenes.guardarNuevaOrden(x);
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo = (DefaultTableModel) tabla.getModel();
+        
+        cod_Ordenes.detalleOrde(modelo, id);
+        
         //System.out.println(fecha);
     }//GEN-LAST:event_btn_guardarActionPerformed
 
