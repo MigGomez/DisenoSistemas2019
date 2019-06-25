@@ -3,13 +3,19 @@ package ventanas;
 
 import codigo.dashboard_codigo;
 import codigo.orden;
+import com.sun.imageio.plugins.png.RowFilter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Inicio extends javax.swing.JFrame {
 
     public Inicio() {
        initComponents();
        this.llenar_tabla();
+       this.cbx_Filtrar.setSelectedIndex(3);
 
     }
 
@@ -27,6 +33,9 @@ public class Inicio extends javax.swing.JFrame {
         btn_modificar = new javax.swing.JButton();
         btn_cobrar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        txt_Filtrar = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        cbx_Filtrar = new javax.swing.JComboBox<>();
         btn_configuraciones = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -100,6 +109,19 @@ public class Inicio extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("ORDENES ACTIVAS:");
 
+        txt_Filtrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_Filtrar.setToolTipText("");
+        txt_Filtrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_FiltrarKeyTyped(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Filtrar:");
+
+        cbx_Filtrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "orden", "mesero", "mesa", "cliente" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -108,7 +130,13 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 803, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbx_Filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_Filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_nuevaorden, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -124,7 +152,15 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 10, Short.MAX_VALUE)
+                                .addComponent(jLabel3)
+                                .addGap(5, 5, 5))
+                            .addComponent(cbx_Filtrar)
+                            .addComponent(txt_Filtrar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -248,6 +284,27 @@ public class Inicio extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_cobrarActionPerformed
 
+    
+    private void txt_FiltrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_FiltrarKeyTyped
+        // TODO add your handling code here:
+        
+        TableRowSorter trs = new TableRowSorter(this.tabla.getModel());
+        
+        this.txt_Filtrar.addKeyListener(new KeyAdapter () {
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                //trs.setRowFilter(RowFilter.regexFilter(txt_Filtrar.getText(), 1) );
+                int a = cbx_Filtrar.getSelectedIndex();
+                trs.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)"+txt_Filtrar.getText(), a));
+                
+            }
+        
+            
+            
+        });
+        tabla.setRowSorter(trs);
+    }//GEN-LAST:event_txt_FiltrarKeyTyped
+
     public void llenar_tabla() {
         DefaultTableModel modelo = new DefaultTableModel();
 
@@ -307,12 +364,15 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btn_imprimir;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_nuevaorden;
+    private javax.swing.JComboBox<String> cbx_Filtrar;
     private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextField txt_Filtrar;
     // End of variables declaration//GEN-END:variables
 }

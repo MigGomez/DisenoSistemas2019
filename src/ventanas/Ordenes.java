@@ -9,6 +9,10 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class Ordenes extends javax.swing.JFrame {
+    
+    //para especificar que sea una nueva orden, o modificar existent
+    boolean nvorden = true; 
+    
     java.util.Date fecha = new Date();
     
     //
@@ -187,7 +191,7 @@ public class Ordenes extends javax.swing.JFrame {
         btn_sumarCantidad = new javax.swing.JButton();
         btn_restarCantidad = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
         btn_guardar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         btn_agregarProducto = new javax.swing.JButton();
@@ -280,13 +284,13 @@ public class Ordenes extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 153, 0));
         jLabel9.setText("PRODUCTOS AGREGADOS: ");
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cancelar.png"))); // NOI18N
-        jButton5.setText("CANCELAR");
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cancelar.png"))); // NOI18N
+        btn_cancelar.setText("CANCELAR");
+        btn_cancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_cancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btn_cancelarActionPerformed(evt);
             }
         });
 
@@ -359,7 +363,7 @@ public class Ordenes extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(btn_eliminarfila, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton5))
+                            .addComponent(btn_cancelar))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(btn_sumarCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -401,7 +405,7 @@ public class Ordenes extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btn_eliminarfila, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton5))
+                                    .addComponent(btn_cancelar))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton4))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -518,11 +522,12 @@ public class Ordenes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void txt_ordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ordenActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txt_ordenActionPerformed
 
 
+    
     private void cbx_categoriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbx_categoriaItemStateChanged
         //si cambia el valor del jcombobox actuliza la lista de productos
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
@@ -533,13 +538,18 @@ public class Ordenes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbx_categoriaItemStateChanged
 
+    
+    
     private void cbx_categoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_categoriaMouseClicked
 
     }//GEN-LAST:event_cbx_categoriaMouseClicked
 
+    
+    
     private void jlist_productosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlist_productosValueChanged
 
     }//GEN-LAST:event_jlist_productosValueChanged
+
 
     
     //*************************************************************************
@@ -565,21 +575,32 @@ public class Ordenes extends javax.swing.JFrame {
         this.actualizarTotal();
     }//GEN-LAST:event_btn_agregarProductoActionPerformed
 
+    
+    
     private void btn_eliminarfilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarfilaActionPerformed
         // TODO add your handling code here:
         this.eliminarFila();
     }//GEN-LAST:event_btn_eliminarfilaActionPerformed
 
+    
+    
     private void btn_sumarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sumarCantidadActionPerformed
         // TODO add your handling code here:
         this.modificarCantidad(1);
     }//GEN-LAST:event_btn_sumarCantidadActionPerformed
 
+    
+    
     private void btn_restarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restarCantidadActionPerformed
         // TODO add your handling code here:
         this.modificarCantidad(-1);
     }//GEN-LAST:event_btn_restarCantidadActionPerformed
 
+    
+    
+    
+    
+    
     //*********************************************************************
     //Boton guardar
     //*********************************************************************
@@ -609,13 +630,18 @@ public class Ordenes extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btn_guardarActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         // TODO add your handling code here:
         Inicio a = new Inicio();
         a.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btn_cancelarActionPerformed
 
+    
+    
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -653,13 +679,13 @@ public class Ordenes extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> CB_mesa;
     private javax.swing.JComboBox<String> CB_mesero;
     private javax.swing.JButton btn_agregarProducto;
+    private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_eliminarfila;
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_restarCantidad;
     private javax.swing.JButton btn_sumarCantidad;
     private javax.swing.JComboBox<String> cbx_categoria;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
