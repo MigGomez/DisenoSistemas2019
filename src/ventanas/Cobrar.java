@@ -36,9 +36,7 @@ public class Cobrar extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1024, 768));
         setMinimumSize(new java.awt.Dimension(1024, 768));
-        setPreferredSize(new java.awt.Dimension(1024, 768));
         setResizable(false);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/boton-atras.png"))); // NOI18N
@@ -61,6 +59,16 @@ public class Cobrar extends javax.swing.JFrame {
 
         txt_orden.setEditable(false);
         txt_orden.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txt_orden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_ordenActionPerformed(evt);
+            }
+        });
+        txt_orden.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_ordenKeyTyped(evt);
+            }
+        });
 
         jButton2.setText("COBRAR");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +149,16 @@ public class Cobrar extends javax.swing.JFrame {
         a.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txt_ordenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ordenKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_ordenKeyTyped
+
+    private void txt_ordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ordenActionPerformed
+       
+        
+       
+    }//GEN-LAST:event_txt_ordenActionPerformed
 
     /**
      * @param args the command line arguments
