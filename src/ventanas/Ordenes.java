@@ -5,6 +5,7 @@ import codigo.orden;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -23,6 +24,7 @@ public class Ordenes extends javax.swing.JFrame {
         this.llenar_listaC();
         this.llenarMesa();
         this.llenarMesero();
+        
 
     }
 
@@ -32,17 +34,30 @@ public class Ordenes extends javax.swing.JFrame {
     public void nuevaOrden_id(String q) {
         this.txt_orden.setText(q);
     }
-    public void prueba2(orden x){
+    
+    //recibe el objeto orden, para modificarla.
+    public void OrdenMd(orden x){
+        this.nvorden=false;
+        
         this.txt_orden.setText(x.getId());
         this.CB_mesa.setSelectedItem(x.getMesa());
+        this.CB_mesa.setEnabled(false);
         this.CB_mesero.setSelectedItem(x.getMesero());
+        this.CB_mesero.setEnabled(false);
         this.txt_cliente.setText(x.getCliente());
+        this.txt_cliente.setEditable(false);
         this.txt_total.setText(x.getTotal());
         
         this.btn_guardar.setEnabled(false); //desactivado aun falta arreglar...
+        //this.btn_guardar.setVisible(false);
+        
         this.titulo.setText("MODIFICAR");
+        this.btn_cancelar.setText("VOLVER");
+        ImageIcon iconobtn = new ImageIcon("src/iconos/boton-atras.png");
+        this.btn_cancelar.setIcon(iconobtn);
     }
-    public void prueba3(String orden){
+    //recibe el id de orden para llenar la tabla de productos agregados a esa orden
+    public void tablaMd(String orden){
         this.llenar_tabla(orden);
     }
     
@@ -52,6 +67,11 @@ public class Ordenes extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
         double x = cod_Ordenes.calcularTotal(modelo);
         this.txt_total.setText(Double.toString(x));
+        
+        if (this.nvorden==false) {
+            cod_Ordenes.actualizarTotal(x, this.txt_orden.getText());
+        }
+        
     }
 
     /**
@@ -143,7 +163,19 @@ public class Ordenes extends javax.swing.JFrame {
     public void eliminarFila() {
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
         if (this.tabla.getSelectedRow() != -1) {
-            modelo.removeRow(this.tabla.getSelectedRow());
+            
+            if (this.nvorden==true) {
+                modelo.removeRow(this.tabla.getSelectedRow());
+            }else{
+                int fila = this.tabla.getSelectedRow();
+                String p = this.tabla.getValueAt(fila, 1).toString();
+                
+                cod_Ordenes.eliminarFila(this.txt_orden.getText(), p);
+                this.llenar_tabla(this.txt_orden.getText());
+            }
+            
+            
+            
         }
         this.actualizarTotal();
     }
@@ -155,13 +187,28 @@ public class Ordenes extends javax.swing.JFrame {
         if (this.tabla.getSelectedRow() != -1) {
             int fila = this.tabla.getSelectedRow();
             String pr = this.tabla.getValueAt(fila, 0).toString();
+            String p = this.tabla.getValueAt(fila, 1).toString();
             int cantidad = Integer.parseInt(pr) + s;
-            double precioU = Double.parseDouble(this.tabla.getValueAt(fila, 2).toString()) * s;
-            double precioT = Double.parseDouble(this.tabla.getValueAt(fila, 3).toString());
-            precioT = precioT + precioU;
-            this.tabla.setValueAt(precioT, fila, 3);
-            //System.out.println(cantidad);
-            this.tabla.setValueAt(cantidad, fila, 0);
+            
+            
+            if (this.nvorden==true) {
+                
+                double precioU = Double.parseDouble(this.tabla.getValueAt(fila, 2).toString()) * s;
+                double precioT = Double.parseDouble(this.tabla.getValueAt(fila, 3).toString());
+                precioT = precioT + precioU;
+                this.tabla.setValueAt(precioT, fila, 3);
+                //System.out.println(cantidad);
+                this.tabla.setValueAt(cantidad, fila, 0);
+                
+            }else {
+                
+                cod_Ordenes.modificarProducto_do(this.txt_orden.getText(), p, cantidad);
+                this.llenar_tabla(this.txt_orden.getText());
+       
+            }
+            
+            
+            
         }
         this.actualizarTotal();
     }
@@ -577,7 +624,18 @@ public class Ordenes extends javax.swing.JFrame {
         int fila = this.buscarProductoTabla(p);
 
         if (fila == -1) {
-            this.agregarFila(cod_Ordenes.llenarFila(p));
+            if (this.nvorden==true) {
+                
+                this.agregarFila(cod_Ordenes.llenarFila(p));
+                
+            } else {
+                cod_Ordenes.agregarPoducto_do(this.txt_orden.getText(), p);
+                this.llenar_tabla(this.txt_orden.getText());
+             
+            }
+            
+            
+            
         } else {
             String pr = this.tabla.getValueAt(fila, 0).toString();
             int cantidad = Integer.parseInt(pr) + 1;
@@ -585,11 +643,25 @@ public class Ordenes extends javax.swing.JFrame {
             double precioT = Double.parseDouble(this.tabla.getValueAt(fila, 3).toString());
             precioT = precioT + precioU;
             
-            this.tabla.setValueAt(precioT, fila, 3);
-            this.tabla.setValueAt(cantidad, fila, 0);
+            
+            if (this.nvorden==true) {
+                this.tabla.setValueAt(precioT, fila, 3);
+                this.tabla.setValueAt(cantidad, fila, 0);
+                
+                
+            } else {
+                
+                cod_Ordenes.modificarProducto_do(this.txt_orden.getText(), p, cantidad);
+                this.llenar_tabla(this.txt_orden.getText());
+                
+                
+            }
+            
+            
             //System.out.println(pr);
             //System.out.println(cantidad);
         }
+        
         this.actualizarTotal();
     }//GEN-LAST:event_btn_agregarProductoActionPerformed
 
@@ -655,13 +727,7 @@ public class Ordenes extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
-<<<<<<< HEAD
-    
-    
-    
-    
-    
-=======
+
     private void txt_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_clienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_clienteActionPerformed
@@ -680,7 +746,6 @@ public class Ordenes extends javax.swing.JFrame {
        if(c<'0' || c>'9')evt.consume();
     }//GEN-LAST:event_txt_ordenKeyTyped
 
->>>>>>> e11c1c30a47a4cba73217653437acebc4801491b
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

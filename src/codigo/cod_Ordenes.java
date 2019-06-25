@@ -152,4 +152,51 @@ public class cod_Ordenes {
         return md;
     }
     
+    
+    
+    //**********************************************************************
+    // para modificar orden existente
+    //**********************************************************************
+    
+    public static void agregarPoducto_do (String id_or, String prod){
+        String q= "SELECT id FROM productos WHERE nombre='"+prod +"'";
+        int x = conexion.id(q);
+        double p = conexion.precioProducto(x);
+        //
+        q = "INSERT INTO detalleorden (orden, producto, cantidad, precio) VALUES (' ";
+        String q2 = id_or +"', '"+ x +"', '"+ "1" +"', '"+ p + "')";
+            
+        //System.out.println(q+q2);
+        conexion.ejecutar(q+q2);
+    }
+    
+    
+    public static void modificarProducto_do(String id, String prod, int cant){
+        String q= "SELECT id FROM productos WHERE nombre='"+prod +"'";
+        int x = conexion.id(q);
+        
+        q = "UPDATE detalleorden SET cantidad ='"+ cant +"'" ;
+        String q2 = "WHERE orden='" + id +"' and producto='"+ x +"'";
+        
+        //System.out.println(q+q2);
+        conexion.ejecutar(q+q2);
+    }
+        
+    public static void actualizarTotal(double x, String id){
+        String q =  "UPDATE ordenes SET total ='"+ x +"' WHERE id ='" + id +"'";
+        //System.out.println(q);
+        conexion.ejecutar(q);
+    }
+    
+    public static void eliminarFila(String id, String prod){
+        String q= "SELECT id FROM productos WHERE nombre='"+prod +"'";
+        int x = conexion.id(q);
+        q =  "DELETE FROM detalleorden WHERE orden='"+ id+ "' AND producto='"+ x +"'";
+        //System.out.println(q);
+        conexion.ejecutar(q);
+    }
+    
+    
+    
+    
 }

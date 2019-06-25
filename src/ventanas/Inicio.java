@@ -154,12 +154,9 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 10, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addGap(5, 5, 5))
                             .addComponent(cbx_Filtrar)
-                            .addComponent(txt_Filtrar))
+                            .addComponent(txt_Filtrar, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
@@ -250,8 +247,10 @@ public class Inicio extends javax.swing.JFrame {
             
             Ordenes a = new Ordenes();
             
-            a.prueba2(x);
-            a.prueba3(x.getId());
+            //envia objeto orden para modificar
+            
+            a.OrdenMd(x);
+            a.tablaMd(x.getId());
             a.setVisible(true);
             
             
