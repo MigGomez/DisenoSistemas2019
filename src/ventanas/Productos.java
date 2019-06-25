@@ -100,9 +100,7 @@ public class Productos extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1024, 768));
         setMinimumSize(new java.awt.Dimension(1024, 768));
-        setPreferredSize(new java.awt.Dimension(1024, 768));
         setResizable(false);
         setSize(new java.awt.Dimension(1024, 768));
 
@@ -117,6 +115,16 @@ public class Productos extends javax.swing.JFrame {
         jLabel3.setText("NOMBRE");
 
         tf_nombre.setText("jTextField1");
+        tf_nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_nombreActionPerformed(evt);
+            }
+        });
+        tf_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tf_nombreKeyTyped(evt);
+            }
+        });
 
         jLabel4.setText("CATEGORIA");
 
@@ -125,6 +133,11 @@ public class Productos extends javax.swing.JFrame {
         cbx_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         tf_precio.setText("jTextField1");
+        tf_precio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tf_precioKeyTyped(evt);
+            }
+        });
 
         jLabel6.setText("PREPARACION?");
 
@@ -376,6 +389,26 @@ public class Productos extends javax.swing.JFrame {
         a.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tf_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf_nombreActionPerformed
+
+    private void tf_nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_nombreKeyTyped
+       
+        char c = evt.getKeyChar(); 
+        
+        if((c<'a'|| c>'z') && (c<'A')| c>'Z')evt.consume();
+        
+        
+    }//GEN-LAST:event_tf_nombreKeyTyped
+
+    private void tf_precioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_precioKeyTyped
+       
+        char c = evt.getKeyChar();
+        
+       if(c<'0' || c>'9')evt.consume();
+    }//GEN-LAST:event_tf_precioKeyTyped
 
     /**
      * @param args the command line arguments
