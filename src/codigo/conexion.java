@@ -2,6 +2,8 @@ package codigo;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -115,14 +117,16 @@ public class conexion {
     public static String nombreProducto(String x){
         String q= "SELECT nombre FROM productos WHERE id='"+x +"'";
         resultado = obtenerValores(q);
-        String precio = "";
+        String nombr = "";
         
         try {
             resultado.first();
-            precio = resultado.getString(1) ;
+            nombr = resultado.getString(1) ;
         } catch (Exception e) { }
-        return precio;
+        return nombr;
     }
+    
+    
     public static String nombreCategoria(String x){
         String q= "SELECT nombre FROM categoria WHERE id='"+x +"'";
         resultado = obtenerValores(q);
@@ -165,4 +169,40 @@ public class conexion {
         return q;
     }  
 
+        
+    public static DefaultTableModel producto_cantidad(String x, DefaultTableModel md){
+        Object[] fila = new Object[2];
+        detalleOrden pc = new detalleOrden();
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo = md;
+        
+        
+        String q = "SELECT producto, cantidad FROM detalleorden WHERE orden='"+x+"'";
+        
+        resultado = obtenerValores(q);
+        
+        try {
+            
+            while(resultado.next() ) {
+                //System.out.println(nombreProducto(resultado.getString(1)));
+                
+                fila[0] = resultado.getString(1);
+                fila[1] = resultado.getString(2);
+                modelo.addRow(fila);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return modelo;
+    }
+        
+        
+        
+        
+        
+        
+        
+        
 }

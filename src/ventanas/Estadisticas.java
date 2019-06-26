@@ -190,8 +190,8 @@ public class Estadisticas extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        this.llenarTabla();
-        
+        //this.llenarTabla();
+        this.tabla_productos.setModel(cod_estadisticas.obtenerProductoVendidos() );
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

@@ -68,6 +68,11 @@ public class Inicio extends javax.swing.JFrame {
         btn_imprimir.setText("IMPRIMIR");
         btn_imprimir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_imprimir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_imprimirActionPerformed(evt);
+            }
+        });
 
         btn_nuevaorden.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_nuevaorden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/boton-de-suma.png"))); // NOI18N
@@ -277,7 +282,8 @@ public class Inicio extends javax.swing.JFrame {
         if (this.tabla.getSelectedRow() != -1) {
             Cobrar a = new Cobrar();
             a.setVisible(true);
-            a.recibirOrden(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
+            a.recibirOrden(tabla.getValueAt(tabla.getSelectedRow(), 0).toString(), tabla.getValueAt(tabla.getSelectedRow(), 4).toString());
+
             dispose();
         }
         
@@ -303,6 +309,17 @@ public class Inicio extends javax.swing.JFrame {
         });
         tabla.setRowSorter(trs);
     }//GEN-LAST:event_txt_FiltrarKeyTyped
+
+    private void btn_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirActionPerformed
+        // TODO add your handling code here:
+        if (this.tabla.getSelectedRow() != -1) {
+            imprimir a = new imprimir();
+            a.setVisible(true);
+            
+
+            dispose();
+        }
+    }//GEN-LAST:event_btn_imprimirActionPerformed
 
     public void llenar_tabla() {
         DefaultTableModel modelo = new DefaultTableModel();

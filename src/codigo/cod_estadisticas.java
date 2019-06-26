@@ -68,4 +68,59 @@ public class cod_estadisticas {
         return cantidad;
     }
     
-}
+    
+    
+    
+    //******************************************************************************
+    public static DefaultTableModel obtenerProductoVendidos(){
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        modelo.addColumn("PRODUCTO");
+        modelo.addColumn("CANTIDAD");
+        
+        
+        String q= "SELECT id FROM ordenes WHERE fecha='2019-06-17'";
+        ArrayList<String> lista = new ArrayList<>();
+        ArrayList<String> lista2 = new ArrayList<>();
+        detalleOrden pc = new detalleOrden();
+        lista = conexion.LLenarLista(q);
+        
+        Object[] fila ;
+        
+        
+        for (int i = 0; i <lista.size() ; i++) {
+            //System.out.println(lista.get(i));
+            
+            //fila = (Object[]) conexion.producto_cantidad(lista.get(i, modelo));
+            
+            
+            /*for (int j = 0; j < fila.length; j++) {
+                System.out.println(lista.get(i) + ", "+ fila[0] + ", " + fila[1]);
+            }*/
+            modelo = conexion.producto_cantidad(lista.get(i), modelo);
+            
+            
+            }
+            
+        return modelo;
+        
+        }
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
